@@ -16,12 +16,12 @@ describe 'Devise::Capturable' do
     @strategy.should_receive(:mapping).and_return(@mapping)
     @strategy.should_receive(:params).at_least(1).and_return(PARAMS)
     @user = User.new
-    Capturable::API.stub(:token).and_return({"access_token" => "abcdefg", "stat" => "ok"})
-    Capturable::API.stub(:entity).and_return({"result" => { "uuid" => "1234" }})
+    CaptureAPI.stub(:token).and_return({"access_token" => "abcdefg", "stat" => "ok"})
+    CaptureAPI.stub(:entity).and_return({"result" => { "uuid" => "1234" }})
   end
   
   it "should authenticate if a user exists in database" do        
-    User.should_receive(:find_with_capturable_params).with(PARAMS).and_return(@user)
+    User.should_receive(:find_with_capturable_params).and_return(@user)
     @strategy.should_receive(:"success!").with(@user).and_return(true)
     lambda { @strategy.authenticate! }.should_not raise_error
   end
@@ -29,7 +29,7 @@ describe 'Devise::Capturable' do
   describe 'when no user exists in database' do
     
     before(:each) do
-      User.should_receive(:find_with_capturable_params).with(PARAMS).and_return(nil)
+      User.should_receive(:find_with_capturable_params).and_return(nil)
     end
               
     it "should fail unless capturable_auto_create_account" do

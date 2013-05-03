@@ -1,3 +1,5 @@
+require 'devise_capturable/api'
+
 module Devise
   
   module Capturable
@@ -14,11 +16,11 @@ module Devise
           klass = mapping.to
       
           begin
-            
-            token = Capturable::API.token(params[:code])
+  
+            token = CaptureAPI.token(params[:code])
             raise Exception, "Expired or Unusable Token" unless token['stat'] == 'ok'
               
-            entity = Capturable::API.entity(token['access_token'])
+            entity = CaptureAPI.entity(token['access_token'])
             user = klass.find_with_capturable_params(entity["result"]) 
 
             if user
@@ -36,7 +38,8 @@ module Devise
             user.set_capturable_params(params)            
             user.save(:validate => false)
             success!(user)
-          rescue
+          rescue Exception => e
+            puts e.inspect
             fail!(:capturable_invalid)
           end
         end
