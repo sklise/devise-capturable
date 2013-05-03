@@ -16,6 +16,8 @@ describe 'Devise::Capturable' do
     @strategy.should_receive(:mapping).and_return(@mapping)
     @strategy.should_receive(:params).at_least(1).and_return(PARAMS)
     @user = User.new
+    Capturable::API.stub(:token).and_return({"access_token" => "abcdefg", "stat" => "ok"})
+    Capturable::API.stub(:entity).and_return({"result" => { "uuid" => "1234" }})
   end
   
   it "should authenticate if a user exists in database" do        
@@ -47,4 +49,3 @@ describe 'Devise::Capturable' do
   end
 
 end
-

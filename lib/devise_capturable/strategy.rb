@@ -15,11 +15,11 @@ module Devise
       
           begin
             
-            
-            # grab user info from the API using OAuth Token
-
-            # find user by whatever they want us to find
-            #user = klass.find_with_capturable_params(params) 
+            token = Capturable::API.token(params[:code])
+            raise Exception, "Expired or Unusable Token" unless token['stat'] == 'ok'
+              
+            entity = Capturable::API.entity(token['access_token'])
+            user = klass.find_with_capturable_params(entity["result"]) 
 
             if user
               success!(user)
@@ -48,7 +48,7 @@ module Devise
         end
 
         def valid_params?
-          params[:code].present?
+          params[:token].present?
         end
 
       end
