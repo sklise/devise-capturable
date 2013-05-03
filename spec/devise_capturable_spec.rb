@@ -5,7 +5,7 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'devise_capturable', 'str
 class User
 end
 
-PARAMS = { :userData => { :uuid => "0112723a-f9c7-41b5-98ab-8b7c160795f1" }}
+PARAMS = { :code => "abcdefghijklmn" }
 
 describe 'Devise::Capturable' do
   

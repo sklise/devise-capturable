@@ -13,7 +13,8 @@ module Devise
       # This is called from strategy and is used to fill a user model before saving
       # It defaults to just setting the uuid, but you can override this in your user model
       def set_capturable_params(params)
-        self.uuid = params[:userData][:uuid]
+        # should set UUID
+        #self.uuid = params[:code]
       end
 
       module ClassMethods

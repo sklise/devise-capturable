@@ -2,6 +2,7 @@ unless defined?(Devise)
   require 'devise'
 end
 
+require 'devise_capturable/api'
 require 'devise_capturable/model'
 require 'devise_capturable/strategy'
 Warden::Strategies.add(:capturable, Devise::Capturable::Strategies::Capturable)

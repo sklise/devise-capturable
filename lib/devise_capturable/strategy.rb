@@ -14,8 +14,12 @@ module Devise
           klass = mapping.to
       
           begin
-            # maybe the params come wrapped in an object instead of in root params?
-            user = klass.find_with_capturable_params(params) 
+            
+            
+            # grab user info from the API using OAuth Token
+
+            # find user by whatever they want us to find
+            #user = klass.find_with_capturable_params(params) 
 
             if user
               success!(user)
@@ -44,7 +48,7 @@ module Devise
         end
 
         def valid_params?
-          params[:userData][:uuid].present?
+          params[:code].present?
         end
 
       end
