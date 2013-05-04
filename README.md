@@ -89,14 +89,14 @@ janrain.settings.language = 'en';
 janrain.settings.capture.redirectUri = 'http://stupidsettings.com';
 ```
 
-You can delete these settings from your embed code, as the gem will set them for you. Remember that you still need a `tokenUrl` setting with a whitelisted address, even though this setting is never used either.
+You can delete these settings from your embed code, as the gem will set them for you. Remember that you still need a `tokenUrl` setting with a whitelisted URL, even though this setting is never used either.
 
 ## Changing defaults
 
 
 #### Overriding `set_capturable_params`
 
-There are times where you might want to save more than the `email` of your user in the Rails `User` model. You can override the `set_capturable_params` instance method to do this. Here's an example where I'm also saving the `uuid`. The `capture_data` is the Janrain Capture `entity` JSON result, and has a binch of information about the user.
+There are times where you might want to save more than the `email` of your user in the Rails `User` model. You can override the `set_capturable_params` instance method to do this. Here's an example where I'm also saving the `uuid`. The `capture_data` parameter passed to the function is the Janrain Capture `entity` JSON result, and has a binch of information about the user.
 
 ```ruby
 class User < ActiveRecord::Base
