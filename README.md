@@ -6,16 +6,16 @@ In the following I use the name `User` for the Devise user model, but it will wo
 
 ## Flow
 
-This gem will replace the normal Devise registration and sessions forms with the Janrain user registration widget. The flow is as follows.
+This gem will replace the normal Devise `registrations` and `sessions` views with the Janrain user registration widget. The flow is as follows.
 
 * User clicks a login link
 * User is presented with the user registration widget and either registers or logs in
-* The gem intercepts the `onCaptureLoginSuccess` event from the widget, grabs the oauth code, and constructs a form that makes a `POST` request with the code to the `sessions_controller`
-* The gem includes a strategy that will grab the oauth token in the `session_controller`, load the user data from the Capture API (to ensure the validity of the token), and either create a new user or log in the user if the user exists.
+* The gem automatically listens to the widget's `onCaptureLoginSuccess` event, grabs the oauth code, and makes a `POST` request with the OAuth code to the `sessions_controller`
+* The gem will grab the oauth token in the `session_controller`, load the user data from the Capture API (to ensure the validity of the token), and either create a new user or log in the user if the user already exists in the Rails DB.
 
 ## Setup
 
-You need to perform these steps to setup the gem with devise.
+You will need to perform these steps to setup the gem.
 
 #### Add gem to Gemfile
 
@@ -29,15 +29,15 @@ in your `config/initializers/devise.rb` initializer, add the following settings.
 
 ```ruby
 Devise.setup do |config|
-	config.capturable_endpoint = "https://myapp.janraincapture.com"  
-	config.capturable_client_id = "myclientid"
-	config.capturable_client_secret = "myclientsecret"
+  config.capturable_endpoint = "https://myapp.janraincapture.com"  
+  config.capturable_client_id = "myclientid"
+  config.capturable_client_secret = "myclientsecret"
 end
 ```
 
 #### Add Janrain Javascript
 
-Now add the script provided by Janrain with `janrainDefaultSettings()`, `janrainInitLoad()` and all the HTML template strings to your application layout. As this script relies on an `<script>` tag with an ID, I haven't figured out how to add this to the Rails asset pipeline. It shouldn't be too hard though. You might need to include a different script in your development environment.
+Now add the script provided by Janrain with `janrainDefaultSettings()`, `janrainInitLoad()`, and all the HTML template strings to your application layout. You might need to include a different script in your development environment.
 
 Keep in mind that this script does not need to include any `onCaptureLoginSuccess` event listeners or other event code. The gem will handle that for you.
 
@@ -46,7 +46,7 @@ Keep in mind that this script does not need to include any `onCaptureLoginSucces
   <head>
   	...
     <script type="text/javascript" id="janrainCaptureDevScript">
-      ...
+      // YOUR CODE HERE
      </script>
   </head>
   <body>
@@ -57,13 +57,13 @@ Keep in mind that this script does not need to include any `onCaptureLoginSucces
 
 #### Add Janrain CSS
 
-The last thing you need to do is to add the Janrain CSS to your asset pipeline. Simply copy them to you `app/assets/stylesheets` folder for inclusion.
+Now add the Janrain CSS to your asset pipeline. Simply copy `janrain.css` and `janrain-mobile.css` to `app/assets/stylesheets`.
 
 #### Done!
 
 Now you're all good to go. 
 
-By default Devise will now create a new instance of your user model when the user logs in for the first time, and just log in the user on following logins. The only property that Devise will save in the user model is the `email` address provided by Capture. You can however change this (See "Changing Defaults")
+By default Devise will now create a database record when the user logs in for the first time. On following logins, the user will just be logged in. The only property Devise will save in the user model is the `email` address provided by Capture. You can however change this (See "Changing Defaults")
 
 ## Automatic Setting
 
@@ -126,4 +126,8 @@ end
 If you want to see how to integrate this gem with a Rails application, you can find an example application here:
 
 [Rails Capturable Example](https://github.com/runemadsen/capture_example)
+
+## TODO
+
+* Ability to add the Janrain script to the asset pipeline. However, it relies on an 'id', which makes it harder.
 
