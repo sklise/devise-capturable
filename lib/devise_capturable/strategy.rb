@@ -9,16 +9,18 @@ module Devise
       class Capturable < ::Devise::Strategies::Base
 
         def valid?
-          valid_controller? && valid_params? && mapping.to.respond_to?('find_with_capturable_params') && mapping.to.respond_to?('new_with_capturable_params')
+          valid_controller? && valid_params? && mapping.to.respond_to?(:find_with_capturable_params) && mapping.to.method_defined?(:set_capturable_params)
         end
 
         def authenticate!
+          puts ":::::::::::: AUTHENTICATE!!!!!!"
+
           klass = mapping.to
       
           begin
   
             token = CaptureAPI.token(params[:code])
-            raise Exception, "Expired or Unusable Token" unless token['stat'] == 'ok'
+            fail!(:capturable_invalid) unless token['stat'] == 'ok'
               
             entity = CaptureAPI.entity(token['access_token'])
             user = klass.find_with_capturable_params(entity["result"]) 
@@ -51,7 +53,7 @@ module Devise
         end
 
         def valid_params?
-          params[:token].present?
+          params[:code].present?
         end
 
       end

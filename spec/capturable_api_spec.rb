@@ -21,4 +21,10 @@ describe 'CaptureAPI' do
   	CaptureAPI.token("abcdef")
   end
 
+  it "should get entity from token" do
+    CaptureAPI.should_receive(:post).with("https://something.dev.janraincapture.com/entity", :headers => { 
+      'Authorization' => "OAuth abcdef" }).and_return({"yeah" => "Yeah"})
+    CaptureAPI.entity("abcdef")
+  end
+
 end

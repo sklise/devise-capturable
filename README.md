@@ -36,7 +36,7 @@ Then add the JS and the CSS
 Show how to add JS and CSS here
 ``
 
-By default this will expect your `User` model to have a `uuid:string` property to save the `uuid` of the Capture user.
+By default this will only set the `email` property of your Capture user, but you can override a setter method in your model to grab extra data from Capture.
 
 ## Overriding User Creation
 

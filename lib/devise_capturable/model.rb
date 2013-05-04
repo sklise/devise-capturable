@@ -13,7 +13,7 @@ module Devise
       # This is called from strategy and is used to fill a user model before saving
       # It defaults to just setting the uuid, but you can override this in your user model
       def set_capturable_params(params)
-        self.uuid = params["uuid"]
+        self.email = params["email"]
       end
 
       module ClassMethods
@@ -32,7 +32,7 @@ module Devise
         # This is called from strategy and is used to find a user when returning from janrain
         # It defaults to find_by_uuid, but you can override this in your user model
         def find_with_capturable_params(params)
-          self.find_by_uuid(params["uuid"])
+          self.find_by_email(params["email"])
         end
 
         protected

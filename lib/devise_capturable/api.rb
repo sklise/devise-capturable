@@ -4,6 +4,7 @@ class CaptureAPI
 
   include HTTParty
   format :json
+  debug_output $stderr
 
 	def self.token(code)
 
@@ -17,6 +18,6 @@ class CaptureAPI
   end
 
 	def self.entity(token)
-    post("/entity", headers: { 'Authorization' => "OAuth #{token}" })
+    post("#{Devise.capturable_endpoint}/entity", headers: { 'Authorization' => "OAuth #{token}" })
   end
 end

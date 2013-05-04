@@ -1,4 +1,5 @@
 en:
   devise:
-    sessions:
-      capturable_invalid: "Could not login. Invalid account."
+    failure:
+      user:
+        capturable_invalid: "Could not login. Invalid account."
