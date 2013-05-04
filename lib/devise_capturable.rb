@@ -5,6 +5,7 @@ end
 require 'devise_capturable/model'
 require 'devise_capturable/strategy'
 Warden::Strategies.add(:capturable, Devise::Capturable::Strategies::Capturable)
+require 'devise_capturable/view_helpers'
 
 module Devise
 	mattr_accessor :capturable_endpoint
