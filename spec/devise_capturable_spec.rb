@@ -6,6 +6,8 @@ class User
 end
 
 PARAMS = { :code => "abcdefghijklmn" }
+TOKEN = {"access_token" => "abcdefg", "stat" => "ok"}
+ENTITY = {"result" => { "uuid" => "1234", "email" => "some@email.com" }}
 
 describe 'Devise::Capturable' do
   
@@ -16,12 +18,12 @@ describe 'Devise::Capturable' do
     @strategy.should_receive(:mapping).and_return(@mapping)
     @strategy.should_receive(:params).at_least(1).and_return(PARAMS)
     @user = User.new
-    CaptureAPI.stub(:token).and_return({"access_token" => "abcdefg", "stat" => "ok"})
-    CaptureAPI.stub(:entity).and_return({"result" => { "uuid" => "1234" }})
+    CaptureAPI.stub(:token).and_return(TOKEN)
+    CaptureAPI.stub(:entity).and_return(ENTITY)
   end
   
   it "should authenticate if a user exists in database" do        
-    User.should_receive(:find_with_capturable_params).and_return(@user)
+    User.should_receive(:find_with_capturable_params).with(ENTITY["result"]).and_return(@user)
     @strategy.should_receive(:"success!").with(@user).and_return(true)
     lambda { @strategy.authenticate! }.should_not raise_error
   end
@@ -41,7 +43,7 @@ describe 'Devise::Capturable' do
     it "should create a new user and success if capturable_auto_create_account" do
       User.should_receive(:"capturable_auto_create_account?").and_return(true)
       User.should_receive(:new).and_return(@user)
-      @user.should_receive(:"set_capturable_params").with(PARAMS).and_return(true)
+      @user.should_receive(:"set_capturable_params").with(ENTITY["result"]).and_return(true)
       @user.should_receive(:save).with({ :validate => false }).and_return(true)
       @strategy.should_receive(:"success!").with(@user).and_return(true)
       lambda { @strategy.authenticate! }.should_not raise_error

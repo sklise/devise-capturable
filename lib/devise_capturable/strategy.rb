@@ -13,8 +13,6 @@ module Devise
         end
 
         def authenticate!
-          puts ":::::::::::: AUTHENTICATE!!!!!!"
-
           klass = mapping.to
       
           begin
@@ -36,8 +34,7 @@ module Devise
             end
             
             user = klass.new
-            # again: maybe the params come wrapped in an object instead of in root params?
-            user.set_capturable_params(params)            
+            user.set_capturable_params(entity["result"])            
             user.save(:validate => false)
             success!(user)
           rescue Exception => e

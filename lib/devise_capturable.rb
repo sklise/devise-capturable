@@ -17,9 +17,3 @@ end
 
 I18n.load_path.unshift File.join(File.dirname(__FILE__), *%w[devise_capturable locales en.yml])
 Devise.add_module(:capturable, :strategy => true, :controller => :sessions, :model => 'devise_capturable/model')
-
-#Devise.setup do |config|
-#	config.warden do |manager| 
-#     #manager.default_strategies.unshift :capturable 
-#  end 
-#end
