@@ -131,7 +131,7 @@ end
 
 ## Example Application
 
-If you want to see how to integrate this gem with a Rails application, you can find an example application here:
+I've made an example application that demonstrates how to integrate this gem with Rails. You can find it here.
 
 [Rails Capturable Example](https://github.com/runemadsen/capture_example)
 
