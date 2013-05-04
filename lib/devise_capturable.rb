@@ -10,7 +10,6 @@ module Devise
 	mattr_accessor :capturable_endpoint
 	mattr_accessor :capturable_client_id
 	mattr_accessor :capturable_client_secret
-	mattr_accessor :capturable_redirect_uri
   mattr_accessor :capturable_auto_create_account
   @@capturable_auto_create_account = true
 end

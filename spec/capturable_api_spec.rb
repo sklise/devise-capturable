@@ -7,13 +7,12 @@ describe 'Devise::Capturable::API' do
 		Devise.stub(:capturable_endpoint).and_return("https://something.dev.janraincapture.com")
     Devise.stub(:capturable_client_id).and_return("thisis")
     Devise.stub(:capturable_client_secret).and_return("atest")
-    Devise.stub(:capturable_redirect_uri).and_return("http://doesthismatter.com?")
 	end
 
   it "should get token from code" do
   	Devise::Capturable::API.should_receive(:post).with("https://something.dev.janraincapture.com/oauth/token", :query => {
         code: "abcdef",
-        redirect_uri: "http://doesthismatter.com?",
+        redirect_uri: "http://stupidsettings.com",
         grant_type: 'authorization_code',
         client_id: "thisis",
         client_secret: "atest",
