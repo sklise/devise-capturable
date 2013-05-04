@@ -23,10 +23,11 @@ Then in your `config/initializers/devise.rb` add the following settings, replaci
 
 ```ruby
 Devise.setup do |config|
-	config.capturable_endpoint = "YOURDATA"  WE CAN REMOVE THIS BECAUSE WE JUST SET IT IN THE GEM!!!
+	config.capturable_endpoint = "YOURDATA"  
 	config.capturable_client_id = "YOURDATA"
 	config.capturable_client_secret = "YOURDATA"
-	config.capturable_redirect_uri = "YOURDATA"
+	config.capturable_redirect_uri = "YOURDATA" THIS IS QUESTIONABLE. FIX BEFORE RELEASE. WHY OH WHY DO WE NEED IT IF WE'RE NOT USING IT?
+end
 ```
 
 Then add the JS....
