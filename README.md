@@ -96,7 +96,7 @@ You can delete these settings from your embed code, as the gem will set them for
 
 #### Overriding `set_capturable_params`
 
-There are times where you might want to save more than the `email` of your user in the Rails `User` model. You can override the `set_capturable_params` instance method to do this. Here's an example where I'm also saving the `uuid`. The `capture_data` parameter passed to the function is the Janrain Capture `entity` JSON result, and has a binch of information about the user.
+There are times where you might want to save more than the `email` of your user in the Rails `User` model. You can override the `set_capturable_params` instance method to do this. Here's an example where I'm also saving the `uuid`. The `capture_data` parameter passed to the function is the Janrain Capture `entity` JSON result that has a bunch of information about the user.
 
 ```ruby
 class User < ActiveRecord::Base
