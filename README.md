@@ -30,10 +30,16 @@ Devise.setup do |config|
 end
 ```
 
-Then add the JS....
+Then add the JS and the CSS
+
+```ruby
+Show how to add JS and CSS here
+``
 
 By default this will expect your `User` model to have a `uuid:string` property to save the `uuid` of the Capture user.
 
 ## Overriding User Creation
 
 TODO
+
+## Example Application
