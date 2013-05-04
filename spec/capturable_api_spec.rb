@@ -1,7 +1,7 @@
 require "spec_helper"
 require File.join(File.dirname(__FILE__), '..', 'lib', 'devise_capturable', 'api')
 
-describe 'CaptureAPI' do
+describe 'Devise::Capturable::API' do
 
 	before(:each) do
 		Devise.stub(:capturable_endpoint).and_return("https://something.dev.janraincapture.com")
@@ -11,20 +11,20 @@ describe 'CaptureAPI' do
 	end
 
   it "should get token from code" do
-  	CaptureAPI.should_receive(:post).with("https://something.dev.janraincapture.com/oauth/token", :query => {
+  	Devise::Capturable::API.should_receive(:post).with("https://something.dev.janraincapture.com/oauth/token", :query => {
         code: "abcdef",
         redirect_uri: "http://doesthismatter.com?",
         grant_type: 'authorization_code',
         client_id: "thisis",
         client_secret: "atest",
       }).and_return({"yeah" => "Yeah"})
-  	CaptureAPI.token("abcdef")
+  	Devise::Capturable::API.token("abcdef")
   end
 
   it "should get entity from token" do
-    CaptureAPI.should_receive(:post).with("https://something.dev.janraincapture.com/entity", :headers => { 
+    Devise::Capturable::API.should_receive(:post).with("https://something.dev.janraincapture.com/entity", :headers => { 
       'Authorization' => "OAuth abcdef" }).and_return({"yeah" => "Yeah"})
-    CaptureAPI.entity("abcdef")
+    Devise::Capturable::API.entity("abcdef")
   end
 
 end

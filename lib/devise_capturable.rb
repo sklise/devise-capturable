@@ -17,3 +17,12 @@ end
 
 I18n.load_path.unshift File.join(File.dirname(__FILE__), *%w[devise_capturable locales en.yml])
 Devise.add_module(:capturable, :strategy => true, :controller => :sessions, :model => 'devise_capturable/model')
+
+module Devise
+	module Capturable
+  	module Rails
+  	  class Engine < ::Rails::Engine
+  	  end
+  	end
+	end
+end

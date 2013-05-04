@@ -17,10 +17,10 @@ module Devise
       
           begin
   
-            token = CaptureAPI.token(params[:code])
+            token = Devise::Capturable::API.token(params[:code])
             fail!(:capturable_invalid) unless token['stat'] == 'ok'
               
-            entity = CaptureAPI.entity(token['access_token'])
+            entity = Devise::Capturable::API.entity(token['access_token'])
             user = klass.find_with_capturable_params(entity["result"]) 
 
             if user
