@@ -67,9 +67,9 @@ Keep in mind that this script does not need to include any `onCaptureLoginSucces
 
 Now add the Janrain CSS to your asset pipeline. Simply copy `janrain.css` and `janrain-mobile.css` to `app/assets/stylesheets`.
 
-#### Add `sign_in` and `sign_out` links
+#### Add links
 
-The gem ships with a helper method to show the Capture widget. You will use this to show the login / registration form, but use the normal Devise `sessions_destroy` method to log out the user, as Devise is controlling the user cookie. This could look something like this.
+The gem ships with a helper method to show the Capture widget. You will use this to show the login / registration form, but use the normal `destroy_user_session_path` helper to log out the user. This is because Devise is controlling the user cookie, not Janrain.
 
 ```erb
 <ul class="nav">
