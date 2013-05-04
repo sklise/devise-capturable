@@ -69,7 +69,7 @@ Now add the Janrain CSS to your asset pipeline. Simply copy `janrain.css` and `j
 
 #### Add links
 
-The gem ships with a helper method to show the Capture widget. You will use this to show the login / registration form, but use the normal `destroy_user_session_path` helper to log out the user. This is because Devise is controlling the user cookie, not Janrain.
+The gem ships with a helper method to show the Capture widget. You will use this to show the login / registration form, but use the normal `destroy_user_session_path` helper to log out the user. This is because Devise, not Capture, is controlling the user cookie.
 
 ```erb
 <ul class="nav">
