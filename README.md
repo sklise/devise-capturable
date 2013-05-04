@@ -23,6 +23,14 @@ You will need to perform these steps to setup the gem.
 gem "devise-capturable", :git => "git://github.com/runemadsen/devise-capturable.git"
 ```
 
+#### Add `:capturable` to your `User` model
+
+```ruby
+class User < ActiveRecord::Base
+  devise ..., :capturable
+end
+```
+
 #### Update initializer
 
 in your `config/initializers/devise.rb` initializer, add the following settings.
