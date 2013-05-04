@@ -4,21 +4,14 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'devise_capturable', 'api
 describe 'CaptureAPI' do
 
 	before(:each) do
-		CaptureAPI.endpoint = "https://something.dev.janraincapture.com"
-		CaptureAPI.client_id = "thisis"
-		CaptureAPI.client_secret = "atest"
-    CaptureAPI.redirect_uri = "http://doesthismatter.com?"
+		Devise.stub(:capturable_endpoint).and_return("https://something.dev.janraincapture.com")
+    Devise.stub(:capturable_client_id).and_return("thisis")
+    Devise.stub(:capturable_client_secret).and_return("atest")
+    Devise.stub(:capturable_redirect_uri).and_return("http://doesthismatter.com?")
 	end
 
-  it "should set base_uri" do        
-    CaptureAPI.base_uri.should == "https://something.dev.janraincapture.com"
-    CaptureAPI.client_id.should == "thisis"
-    CaptureAPI.client_secret.should == "atest"
-    CaptureAPI.redirect_uri.should == "http://doesthismatter.com?"
-  end
-
   it "should get token from code" do
-  	CaptureAPI.should_receive(:post).with("/oauth/token", :query => {
+  	CaptureAPI.should_receive(:post).with("https://something.dev.janraincapture.com/oauth/token", :query => {
         code: "abcdef",
         redirect_uri: "http://doesthismatter.com?",
         grant_type: 'authorization_code',

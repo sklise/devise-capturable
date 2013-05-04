@@ -1,29 +1,18 @@
 require 'httparty'
 
 class CaptureAPI
-	
-  # This makes it possible to set use the API like this:
-  # Capturable::API.endpoint = "http://something.com"
-  # Capturable::API.client_id = "thisis"
-  # Capturable::API.client_secret = "atest"
-  # Capturable::API.redirect_url = "http://locahost"
-  class << self
-    attr_accessor :client_id, :client_secret, :redirect_uri
-    def endpoint=(endpoint)
-      base_uri endpoint
-    end
-  end
 
   include HTTParty
   format :json
 
 	def self.token(code)
-    post("/oauth/token", :query => {
+
+    post("#{Devise.capturable_endpoint}/oauth/token", :query => {
       code: code,
-      redirect_uri: @redirect_uri,
+      redirect_uri: Devise.capturable_redirect_uri,
       grant_type: 'authorization_code',
-      client_id: @client_id,
-      client_secret: @client_secret,
+      client_id: Devise.capturable_client_id,
+      client_secret: Devise.capturable_client_secret,
     })
   end
 
