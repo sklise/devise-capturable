@@ -121,7 +121,7 @@ end
 
 #### Disabling User Creation
 
-By default this gem will create a user if the user doesn't exist in the system. If you want to disable this (if you have a site where only the current users in your DB should have access), you can disable this setting in the Devise initializer `config`.
+By default the gem will create a user if the user doesn't exist in the system. If you want to disable the creation of new users, and only allow current users to log in, you can disable automatic account creation in your `config/intitializers/devise.rb` initializer.
 
 ```ruby
 Devise.setup do |config|
