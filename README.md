@@ -119,7 +119,7 @@ def find_with_capturable_params(capture_data)
 end
 ```
 
-#### Stopping User Creation
+#### Disabling User Creation
 
 By default this gem will create a user if the user doesn't exist in the system. If you want to disable this (if you have a site where only the current users in your DB should have access), you can disable this setting in the Devise initializer `config`.
 
