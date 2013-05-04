@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Devise::Capturable::VERSION
   gem.authors       = ["Rune Skjoldborg Madsen"]
   gem.email         = ["rune@runemadsen.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Devise::Capturable is a gem that makes it possible to use the Janrain Engage user registration widget, while preserving your Devise authentication setup with your custom user model.}
+  gem.summary       = %q{Janrain Capture for Devise}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
