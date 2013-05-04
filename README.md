@@ -61,13 +61,13 @@ Now add the Janrain CSS to your asset pipeline. Simply copy `janrain.css` and `j
 
 #### Done!
 
-Now you're all good to go. 
+That's it! 
 
 By default Devise will now create a database record when the user logs in for the first time. On following logins, the user will just be logged in. The only property Devise will save in the user model is the `email` address provided by Capture. You can however change this (See "Changing Defaults")
 
-## Automatic Setting
+## Automated Settings
 
-The Janrain User Registration widget relies on a bunch of settings that are 1) never used and 2) breaks the widget if they are not there. To circumvent this madness, this gem will automatically set a bunch of janrain setting variables for you:
+The Janrain User Registration widget relies on settings that are 1) never used and 2) breaks the widget if they are not present. To circumvent this madness, this gem will automatically set a bunch of janrain setting variables for you:
 
 ```javascript
 // these settings will always be the same
@@ -81,14 +81,14 @@ janrain.settings.language = 'en';
 janrain.settings.capture.redirectUri = 'http://stupidsettings.com';
 ```
 
-This means that you can delete these settings from your embed code.
+You can delete these settings from your embed code, as the gem will set them for you. Remember that you still need a `tokenUrl` setting with a whitelisted address, even though this setting is never used either.
 
 ## Changing defaults
 
 
 #### Overriding `set_capturable_params`
 
-There are times where you might want to save extra information in your user model than the user `email` (like `uuid`). You can override the `set_capturable_params` instance method to do this. Here's an example where I'm not only saving the `email`, but also the `uuid`.
+There are times where you might want to save more than an `email` in your `User` model. You can override the `set_capturable_params` instance method to do this. Here's an example where I'm not only saving the `email`, but also the `uuid`.
 
 ```ruby
 class User < ActiveRecord::Base
