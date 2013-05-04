@@ -6,7 +6,7 @@ In the following I use the name `User` for the Devise user model, but it will wo
 
 ## Flow
 
-When using this gem, you'll replace the normal user registration and login form with the Janrain user registration widget. The login / registration flow will be as follows:
+This gem will replace the normal Devise registration and sessions forms with the Janrain user registration widget. The flow is as follows.
 
 * User clicks a login link
 * User is presented with the user registration widget and either registers or logs in
