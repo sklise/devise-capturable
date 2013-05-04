@@ -152,4 +152,5 @@ I've made an example application that demonstrates how to integrate this gem wit
 ## TODO
 
 * Ability to add the Janrain script to the asset pipeline. However, it relies on an 'id', which makes it harder.
+* Remove normal Devise sign_in routes? Or leave it up to the user?
 
