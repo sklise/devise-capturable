@@ -43,6 +43,14 @@ Devise.setup do |config|
 end
 ```
 
+#### Add Gem Javascript to you asset pipeline
+
+The gem ships with a JS file that automatically subscribes to the login event and makes a POST to the `sessions_controller`. Make sure to include it in you asset pipeline.
+
+```javascript
+//= require devise_capturable
+```
+
 #### Add Janrain Javascript
 
 Now add the script provided by Janrain with `janrainDefaultSettings()`, `janrainInitLoad()`, and all the HTML template strings to your application layout. You might need to include a different script in your development environment.
