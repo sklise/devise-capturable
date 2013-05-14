@@ -8,7 +8,7 @@ Warden::Strategies.add(:capturable, Devise::Capturable::Strategies::Capturable)
 require 'devise_capturable/view_helpers'
 
 module Devise
-	mattr_accessor :capturable_endpoint
+	mattr_accessor :capturable_server
 	mattr_accessor :capturable_client_id
 	mattr_accessor :capturable_client_secret
   mattr_accessor :capturable_auto_create_account

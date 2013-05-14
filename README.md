@@ -37,7 +37,7 @@ In your `config/initializers/devise.rb` initializer, add the following settings.
 
 ```ruby
 Devise.setup do |config|
-  config.capturable_endpoint = "https://myapp.janraincapture.com"  
+  config.capturable_server = "https://myapp.janraincapture.com"  
   config.capturable_client_id = "myclientid"
   config.capturable_client_secret = "myclientsecret"
 end

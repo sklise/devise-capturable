@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'devise_capturable', 'api
 describe 'Devise::Capturable::API' do
 
 	before(:each) do
-		Devise.stub(:capturable_endpoint).and_return("https://something.dev.janraincapture.com")
+		Devise.stub(:capturable_server).and_return("https://something.dev.janraincapture.com")
     Devise.stub(:capturable_client_id).and_return("thisis")
     Devise.stub(:capturable_client_secret).and_return("atest")
 	end

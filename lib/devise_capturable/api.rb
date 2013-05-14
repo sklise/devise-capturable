@@ -11,7 +11,7 @@ module Devise
     
       def self.token(code)
     
-        post("#{Devise.capturable_endpoint}/oauth/token", :query => {
+        post("#{Devise.capturable_server}/oauth/token", :query => {
           code: code,
           redirect_uri: "http://stupidsettings.com",
           grant_type: 'authorization_code',
@@ -21,7 +21,7 @@ module Devise
       end
     
       def self.entity(token)
-        post("#{Devise.capturable_endpoint}/entity", headers: { 'Authorization' => "OAuth #{token}" })
+        post("#{Devise.capturable_server}/entity", headers: { 'Authorization' => "OAuth #{token}" })
       end
     end
 
