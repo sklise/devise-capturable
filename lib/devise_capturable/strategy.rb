@@ -14,7 +14,7 @@ module Devise
 
         def authenticate!
           klass = mapping.to
-      
+
           begin
   
             token = Devise::Capturable::API.token(params[:code])
@@ -38,7 +38,6 @@ module Devise
             user.save(:validate => false)
             success!(user)
           rescue Exception => e
-            puts e.inspect
             fail!(:capturable_invalid)
           end
         end

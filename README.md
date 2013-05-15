@@ -103,9 +103,6 @@ The Janrain User Registration widget relies on settings that are 1) never used a
 // these settings will always be the same
 janrain.settings.capture.flowName = 'signIn';
 janrain.settings.capture.responseType = 'code';
-janrain.settings.capture.setProfileCookie = false;
-janrain.settings.capture.keepProfileCookieAfterLogout = false;
-janrain.settings.language = 'en';
 
 // these settings are never used but crashes the widget if not present
 janrain.settings.capture.redirectUri = 'http://stupidsettings.com';

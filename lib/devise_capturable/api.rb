@@ -7,10 +7,9 @@ module Devise
 
       include HTTParty
       format :json
-      debug_output $stderr
+      #debug_output $stderr
     
       def self.token(code)
-    
         post("#{Devise.capturable_server}/oauth/token", :query => {
           code: code,
           redirect_uri: "http://stupidsettings.com",
