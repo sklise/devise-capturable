@@ -18,11 +18,14 @@ describe 'Devise::Capturable' do
     @strategy.should_receive(:mapping).and_return(@mapping)
     @strategy.should_receive(:params).at_least(1).and_return(PARAMS)
     @user = User.new
+    @user.stub(:set_capturable_params)
     Devise::Capturable::API.stub(:token).and_return(TOKEN)
     Devise::Capturable::API.stub(:entity).and_return(ENTITY)
   end
   
   it "should authenticate if a user exists in database" do        
+    User.stub(:capturable_auto_create_account?).and_return(true)
+    @user.stub(:save).and_return(true)
     User.should_receive(:find_with_capturable_params).with(ENTITY["result"]).and_return(@user)
     @strategy.should_receive(:"success!").with(@user).and_return(true)
     lambda { @strategy.authenticate! }.should_not raise_error
