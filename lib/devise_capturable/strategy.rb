@@ -23,17 +23,12 @@ module Devise
             entity = Devise::Capturable::API.entity(token['access_token'])
             user = klass.find_with_capturable_params(entity["result"]) 
 
-            if user
-              success!(user)
-              return
-            end
-
             unless klass.capturable_auto_create_account?
               fail!(:capturable_invalid)
               return
             end
             
-            user = klass.new
+            user ||= klass.new
             user.set_capturable_params(entity["result"])            
             user.save(:validate => false)
             success!(user)
