@@ -154,6 +154,10 @@ I've made an example application that demonstrates how to integrate this gem wit
 
 [Rails Capturable Example](https://github.com/runemadsen/capture_example)
 
+## Running the Tests
+
+Run the tests with the `rspec` command.
+
 ## TODO
 
 * Ability to add the Janrain script to the asset pipeline. However, it relies on an 'id', which makes it harder.
