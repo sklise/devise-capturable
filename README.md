@@ -20,7 +20,7 @@ You will need to perform these steps to setup the gem.
 #### Add gem to Gemfile
 
 ```ruby
-gem "devise_capturable", :git => "git://github.com/runemadsen/devise-capturable.git"
+gem "devise_capturable"
 ```
 
 #### Add `:capturable` to your `User` model
