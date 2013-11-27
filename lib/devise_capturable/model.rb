@@ -18,13 +18,6 @@ module Devise
 
       module ClassMethods
 
-        # Configuration params accessible within +Devise.setup+ procedure (in initalizer).
-        #
-        #   Devise.setup do |config|
-        #     config.capturable_auto_create_account = true
-        #   end
-        ::Devise::Models.config(self, :capturable_auto_create_account)
-
         def capturable_auto_create_account?
           self.capturable_auto_create_account
         end

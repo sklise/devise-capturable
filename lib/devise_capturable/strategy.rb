@@ -21,17 +21,18 @@ module Devise
             fail!(:capturable_invalid) unless token['stat'] == 'ok'
               
             entity = Devise::Capturable::API.entity(token['access_token'])
-            user = klass.find_with_capturable_params(entity["result"]) 
+            user = klass.find_with_capturable_params(entity["result"])
 
-            unless klass.capturable_auto_create_account?
-              fail!(:capturable_invalid)
-              return
+            if user
+              user.before_capturable_sign_in(entity["result"], params)
+            else
+              user = klass.new
+              user.before_capturable_create(entity["result"], params)
+              user.save
             end
-            
-            user ||= klass.new
-            user.set_capturable_params(entity["result"])            
-            user.save(:validate => false)
+
             success!(user)
+
           rescue Exception => e
             fail!(:capturable_invalid)
           end
