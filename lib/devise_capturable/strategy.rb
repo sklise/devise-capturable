@@ -9,7 +9,7 @@ module Devise
       class Capturable < ::Devise::Strategies::Base
 
         def valid?
-          valid_controller? && valid_params? && mapping.to.respond_to?(:find_with_capturable_params) && mapping.to.method_defined?(:set_capturable_params)
+          valid_controller? && valid_params? && mapping.to.respond_to?(:find_with_capturable_params) && mapping.to.method_defined?(:before_capturable_create) && mapping.to.method_defined?(:before_capturable_sign_in)
         end
 
         def authenticate!
