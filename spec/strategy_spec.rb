@@ -18,37 +18,38 @@ describe 'Devise::Capturable' do
     @strategy.should_receive(:mapping).and_return(@mapping)
     @strategy.should_receive(:params).at_least(1).and_return(PARAMS)
     @user = User.new
-    @user.stub(:set_capturable_params)
     Devise::Capturable::API.stub(:token).and_return(TOKEN)
     Devise::Capturable::API.stub(:entity).and_return(ENTITY)
   end
+
+  describe "for an existing user" do
   
-  it "should authenticate and set capturable params if a user exists in database" do
-    User.stub(:capturable_auto_create_account?).and_return(true)
-    @user.stub(:save).and_return(true)
-    User.should_receive(:find_with_capturable_params).with(ENTITY["result"]).and_return(@user)
-    @user.should_receive(:set_capturable_params).with(ENTITY["result"]).and_return(true)
-    @strategy.should_receive(:"success!").with(@user).and_return(true)
-    lambda { @strategy.authenticate! }.should_not raise_error
+    it "should call #before_capturable_sign_in and authenticate" do
+      @user.stub(:save).and_return(true)
+      User.should_receive(:find_with_capturable_params).with(ENTITY["result"]).and_return(@user)
+      @user.should_receive(:before_capturable_sign_in).with(ENTITY["result"], PARAMS).and_return(true)
+      @strategy.should_receive(:"success!").with(@user).and_return(true)
+      lambda { @strategy.authenticate! }.should_not raise_error
+    end
+
   end
     
-  describe 'when no user exists in database' do
+  describe 'for a new user' do
     
     before(:each) do
       User.should_receive(:find_with_capturable_params).and_return(nil)
+      User.should_receive(:new).and_return(@user)
     end
               
-    it "should fail unless capturable_auto_create_account" do
-      User.should_receive(:"capturable_auto_create_account?").and_return(false)
+    it "should call #before_capturable_create and fail is unsuccessful" do
+      @user.should_receive(:"before_capturable_create").with(ENTITY["result"], PARAMS).and_return(false)
       @strategy.should_receive(:"fail!").with(:capturable_invalid).and_return(true)
       lambda { @strategy.authenticate! }.should_not raise_error
     end
     
-    it "should create a new user and success if capturable_auto_create_account" do
-      User.should_receive(:"capturable_auto_create_account?").and_return(true)
-      User.should_receive(:new).and_return(@user)
-      @user.should_receive(:"set_capturable_params").with(ENTITY["result"]).and_return(true)
-      @user.should_receive(:save).with({ :validate => false }).and_return(true)
+    it "should call #before_capturable_create and succeed if successful" do
+      @user.should_receive(:"before_capturable_create").with(ENTITY["result"], PARAMS).and_return(true)
+      @user.should_receive(:save).and_return(true)
       @strategy.should_receive(:"success!").with(@user).and_return(true)
       lambda { @strategy.authenticate! }.should_not raise_error
     end
