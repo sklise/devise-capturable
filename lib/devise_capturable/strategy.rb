@@ -13,10 +13,10 @@ module Devise
         end
 
         def authenticate!
+          
           klass = mapping.to
 
           begin
-  
             token = Devise::Capturable::API.token(params[:code])
             fail!(:capturable_invalid) unless token['stat'] == 'ok'
               
@@ -28,11 +28,10 @@ module Devise
             else
               user = klass.new
               user.before_capturable_create(entity["result"], params)
-              user.save
+              user.save!
             end
 
             success!(user)
-
           rescue Exception => e
             fail!(:capturable_invalid)
           end

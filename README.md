@@ -161,12 +161,6 @@ Devise.setup do |config|
 end
 ```
 
-## Example Application
-
-I've made an example application that demonstrates how to integrate this gem with Rails. You can find it here.
-
-[Rails Capturable Example](https://github.com/runemadsen/capture_example)
-
 ## Running the Tests
 
 Run the tests with the `rspec` command.
