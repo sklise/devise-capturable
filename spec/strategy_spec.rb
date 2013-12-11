@@ -13,7 +13,7 @@ describe 'Devise::Capturable' do
   
   before(:each) do
     @strategy = Devise::Capturable::Strategies::Capturable.new
-    @mapping = mock(:mapping)
+    @mapping = double(:mapping)
     @mapping.should_receive(:to).and_return(User)
     @strategy.should_receive(:mapping).and_return(@mapping)
     @strategy.should_receive(:params).at_least(1).and_return(PARAMS)
