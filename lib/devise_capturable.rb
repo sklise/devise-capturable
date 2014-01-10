@@ -11,8 +11,6 @@ module Devise
 	mattr_accessor :capturable_server
 	mattr_accessor :capturable_client_id
 	mattr_accessor :capturable_client_secret
-  mattr_accessor :capturable_auto_create_account
-  @@capturable_auto_create_account = true
 end
 
 I18n.load_path.unshift File.join(File.dirname(__FILE__), *%w[devise_capturable locales en.yml])

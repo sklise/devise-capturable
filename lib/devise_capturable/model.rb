@@ -10,24 +10,18 @@ module Devise
         end
       end
 
-      # This is called from strategy and is used to fill a user model before saving
-      # It defaults to just setting the uuid, but you can override this in your user model
-      def set_capturable_params(capture_data)
+      # This is called from strategy and is used to fill a user model before creating it
+      # It defaults to just setting the email, but you can override this in your user model
+      def before_capturable_create(capture_data, params)
         self.email = capture_data["email"]
       end
 
+      # This is called from strategy and *can* be used to update an existing user model if 
+      # the data changes on the janrain side. It defaults to doing nothing.
+      def before_capturable_sign_in(capture_data, params)
+      end
+
       module ClassMethods
-
-        # Configuration params accessible within +Devise.setup+ procedure (in initalizer).
-        #
-        #   Devise.setup do |config|
-        #     config.capturable_auto_create_account = true
-        #   end
-        ::Devise::Models.config(self, :capturable_auto_create_account)
-
-        def capturable_auto_create_account?
-          self.capturable_auto_create_account
-        end
 
         # This is called from strategy and is used to find a user when returning from janrain
         # It defaults to find_by_uuid, but you can override this in your user model

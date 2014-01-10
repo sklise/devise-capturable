@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency("httparty")
   gem.add_development_dependency("devise")
-  gem.add_development_dependency("rspec")
+  gem.add_development_dependency("rspec", "~> 2.14")
   gem.add_development_dependency("rails")
 
 end

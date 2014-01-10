@@ -20,7 +20,7 @@ You will need to perform these steps to setup the gem.
 #### Add gem to Gemfile
 
 ```ruby
-gem "devise_capturable", :git => "git://github.com/runemadsen/devise-capturable.git"
+gem "devise_capturable"
 ```
 
 #### Add `:capturable` to your `User` model
@@ -113,17 +113,30 @@ You can delete these settings from your embed code, as the gem will set them for
 ## Changing defaults
 
 
-#### Overriding `set_capturable_params`
+#### Overriding `before_capturable_create`
 
-There are times where you might want to save more than the `email` of your user in the Rails `User` model. You can override the `set_capturable_params` instance method to do this. Here's an example where I'm also saving the `uuid`. The `capture_data` parameter passed to the function is the Janrain Capture `entity` JSON result that has a bunch of information about the user.
+There are times where you might want to save more than the `email` of your user in the Rails `User` model. You can override the `before_capturable_create` instance method to do this. Here's an example where I'm also saving the `uuid`. The `capture_data` parameter passed to the function is the Janrain Capture `entity` JSON result that has a bunch of information about the user, and the `params` parameter is the controller parameters.
 
 ```ruby
 class User < ActiveRecord::Base
   devise ..., :capturable
-  attr_accessible ..., :email, uuid
-  def set_capturable_params(capture_data)
+  def before_capturable_create(capture_data, params)
   	self.email = capture_data["email"]
   	self.uuid = capture_data["uuid"]
+  end
+end
+```
+
+#### Overriding `before_capturable_sign_in`
+
+You might also want to update your Rails model if the data changes on the Janrain side. You can use the `before_capturable_sign_in` method for this. This method is empty by default, but can be defined in your model to update certain attributes. Here's an example where we update the fake "is_awesome" attribute.
+
+```ruby
+class User < ActiveRecord::Base
+  devise ..., :capturable
+  def before_capturable_sign_in(capture_data, params)
+    self.is_awesome = capture_data["is_awesome"]
+    self.save!
   end
 end
 ```
@@ -148,11 +161,9 @@ Devise.setup do |config|
 end
 ```
 
-## Example Application
+## Running the Tests
 
-I've made an example application that demonstrates how to integrate this gem with Rails. You can find it here.
-
-[Rails Capturable Example](https://github.com/runemadsen/capture_example)
+Run the tests with the `rspec` command.
 
 ## TODO
 

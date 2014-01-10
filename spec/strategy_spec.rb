@@ -13,43 +13,47 @@ describe 'Devise::Capturable' do
   
   before(:each) do
     @strategy = Devise::Capturable::Strategies::Capturable.new
-    @mapping = mock(:mapping)
-    @mapping.should_receive(:to).and_return(User)
-    @strategy.should_receive(:mapping).and_return(@mapping)
-    @strategy.should_receive(:params).at_least(1).and_return(PARAMS)
+    @mapping = double(:mapping)
     @user = User.new
-    @user.stub(:set_capturable_params)
-    Devise::Capturable::API.stub(:token).and_return(TOKEN)
-    Devise::Capturable::API.stub(:entity).and_return(ENTITY)
+    expect(@mapping).to receive(:to).and_return(User)
+    expect(@strategy).to receive(:mapping).and_return(@mapping)
+    expect(@strategy).to receive(:params).at_least(:once).and_return(PARAMS)
+    allow(Devise::Capturable::API).to receive(:token).and_return(TOKEN)
+    allow(Devise::Capturable::API).to receive(:entity).and_return(ENTITY)
   end
+
+  describe "for an existing user" do
   
-  it "should authenticate if a user exists in database" do        
-    User.stub(:capturable_auto_create_account?).and_return(true)
-    @user.stub(:save).and_return(true)
-    User.should_receive(:find_with_capturable_params).with(ENTITY["result"]).and_return(@user)
-    @strategy.should_receive(:"success!").with(@user).and_return(true)
-    lambda { @strategy.authenticate! }.should_not raise_error
+    it "should authenticate" do
+      expect(User).to receive(:find_with_capturable_params).with(ENTITY["result"]).and_return(@user)
+      expect(@user).to receive(:before_capturable_sign_in).with(ENTITY["result"], PARAMS)
+      expect(@user).to_not receive(:save!)
+      expect(@strategy).to receive(:success!).with(@user)
+      expect { @strategy.authenticate! }.to_not raise_error
+    end
+
   end
     
-  describe 'when no user exists in database' do
+  describe 'for a new user' do
     
     before(:each) do
-      User.should_receive(:find_with_capturable_params).and_return(nil)
+      expect(User).to receive(:find_with_capturable_params).and_return(nil)
+      expect(User).to receive(:new).and_return(@user)
+      expect(@user).to receive(:before_capturable_create).with(ENTITY["result"], PARAMS)
     end
               
-    it "should fail unless capturable_auto_create_account" do
-      User.should_receive(:"capturable_auto_create_account?").and_return(false)
-      @strategy.should_receive(:"fail!").with(:capturable_invalid).and_return(true)
-      lambda { @strategy.authenticate! }.should_not raise_error
+    it "should fail if unsuccessful" do
+      expect(@user).to receive(:save!).and_raise(Exception)
+      expect(@strategy).to_not receive(:success!)
+      expect(@strategy).to receive(:fail!).with(:capturable_invalid)
+      expect { @strategy.authenticate! }.to_not raise_error
     end
     
-    it "should create a new user and success if capturable_auto_create_account" do
-      User.should_receive(:"capturable_auto_create_account?").and_return(true)
-      User.should_receive(:new).and_return(@user)
-      @user.should_receive(:"set_capturable_params").with(ENTITY["result"]).and_return(true)
-      @user.should_receive(:save).with({ :validate => false }).and_return(true)
-      @strategy.should_receive(:"success!").with(@user).and_return(true)
-      lambda { @strategy.authenticate! }.should_not raise_error
+    it "should succeed if successful" do
+      expect(@user).to receive(:save!).and_return(true)
+      expect(@strategy).to receive(:success!).with(@user)
+      expect(@strategy).to_not receive(:fail!)
+      expect { @strategy.authenticate! }.to_not raise_error
     end
   end
 
