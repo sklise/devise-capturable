@@ -11,6 +11,7 @@ module Devise
 	mattr_accessor :capturable_server
 	mattr_accessor :capturable_client_id
 	mattr_accessor :capturable_client_secret
+	mattr_accessor :capturable_redirect_uri
 end
 
 I18n.load_path.unshift File.join(File.dirname(__FILE__), *%w[devise_capturable locales en.yml])

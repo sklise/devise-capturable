@@ -40,6 +40,7 @@ Devise.setup do |config|
   config.capturable_server = "https://myapp.janraincapture.com"  
   config.capturable_client_id = "myclientid"
   config.capturable_client_secret = "myclientsecret"
+  config.capturable_redirect_uri = "http://sample.com"
 end
 ```
 
