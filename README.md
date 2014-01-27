@@ -40,7 +40,8 @@ Devise.setup do |config|
   config.capturable_server = "https://myapp.janraincapture.com"  
   config.capturable_client_id = "myclientid"
   config.capturable_client_secret = "myclientsecret"
-  config.capturable_redirect_uri = "http://sample.com"
+  # Optional, see below to override config.capturable_redirect_uri
+  # config.capturable_redirect_uri = "http://sample.com"
 end
 ```
 
@@ -101,18 +102,15 @@ By default Devise will now create a database record when the user logs in for th
 The Janrain User Registration widget relies on settings that are 1) never used and 2) breaks the widget if they are not present. To circumvent this madness, this gem will automatically set a bunch of janrain setting variables for you:
 
 ```javascript
-// these settings will always be the same
+// default settings for gem
 janrain.settings.capture.flowName = 'signIn';
 janrain.settings.capture.responseType = 'code';
-
-// these settings are never used but crashes the widget if not present
 janrain.settings.capture.redirectUri = 'http://stupidsettings.com';
 ```
 
 You can delete these settings from your embed code, as the gem will set them for you. Remember that you still need a `tokenUrl` setting with a whitelisted URL, even though this setting is never used either.
 
 ## Changing defaults
-
 
 #### Overriding `before_capturable_create`
 
@@ -160,6 +158,38 @@ By default the gem will create a user if the user doesn't exist in the system. I
 Devise.setup do |config|
 	config.capturable_auto_create_account = false
 end
+```
+
+#### Overriding `janrainCaptureWidgetOnLoad`
+
+There are a number of reasons you may need to override the default `janrainCaptureWidgetOnLoad` Javascript function:
+
+* To use the `signInEmbedded` flow instead of the default `signIn`
+* To specify a `redirectUri` value (required to use Janrain's Federate feature)
+* To add functionality to Janrain event handlers, or add more event handlers
+
+To do so, you'll need to write your own `janrainCaptureWidgetOnLoad` function and include it separately. In this example, I'm replacing the default function with my own, included inline when loading the Janrain widget:
+
+```javascript
+  function janrainCaptureWidgetOnLoad() {
+    janrain.settings.capture.flowName = 'signInEmbedded';
+    janrain.settings.capture.responseType = 'code';
+    janrain.settings.capture.redirectUri = 'http://mydomain.com';
+    janrain.capture.ui.start();
+
+    // afterJanrainLogin is provided by Devise::Capturable to assist with
+    // server-side login
+    janrain.events.onCaptureLoginSuccess.addHandler(afterJanrainLogin);
+    janrain.events.onCaptureRegistrationSuccess.addHandler(afterJanrainLogin);
+  };
+```
+
+Finally, I can also provide an optional path to send the Janrain `authorizationCode` to in my application, if using a Devise resource not named `User`:
+
+```erb
+janrain.events.onCaptureRegistrationSuccess.addHandler(function(result) {
+  afterJanrainLogin(result, '<%= new_admin_session_path %>');
+});
 ```
 
 ## Running the Tests
