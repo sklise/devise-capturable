@@ -33,6 +33,7 @@ module Devise
 
             success!(user)
           rescue Exception => e
+            puts e
             fail!(:capturable_invalid)
           end
         end
