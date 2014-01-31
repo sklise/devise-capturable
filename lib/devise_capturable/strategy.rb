@@ -19,14 +19,15 @@ module Devise
           begin
 
             puts params
-            puts token
-            puts user if user
-            puts entity
+            
             token = Devise::Capturable::API.token(params[:code])
+            puts token
             fail!(:capturable_invalid) unless token['stat'] == 'ok'
               
             entity = Devise::Capturable::API.entity(token['access_token'])
+            puts entity
             user = klass.find_with_capturable_params(entity["result"])
+            puts user if user
 
             if user
               user.before_capturable_sign_in(entity["result"], params)
@@ -38,7 +39,7 @@ module Devise
 
             success!(user)
           rescue Exception => e
-            puts e
+            puts e.inspect
             fail!(:capturable_invalid)
           end
         end
