@@ -17,6 +17,10 @@ module Devise
           klass = mapping.to
 
           begin
+
+            puts params
+            puts token['access_token']
+            puts user
             token = Devise::Capturable::API.token(params[:code])
             fail!(:capturable_invalid) unless token['stat'] == 'ok'
               
